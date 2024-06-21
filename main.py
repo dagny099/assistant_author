@@ -355,6 +355,9 @@ with st.expander("OPTIMIZE RESUME WITH AI", expanded=True):
     sec2.checkbox("Check to load default RESUME.txt ", value=True, key="use_def_res")
     if 'text_input' in st.session_state:
         DEF_USER_TEXT = st.session_state['text_input']
+    else:
+        DEF_USER_TEXT = ""
+
     if st.session_state["use_def_res"]:
         if os.path.exists(pre_upload_file_path):
             DEF_USER_TEXT = read_text_file(pre_upload_file_path)
