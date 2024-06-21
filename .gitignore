@@ -1,0 +1,98 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# temporary files
+tmp/*
+saved_SESSIONS/*
+saved_DOCS/*
+
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Streamlit settings
+.streamlit
+
+# Jupyter Notebook configuration
+.jupyter/
+
+# Pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.venv
+
+# Data files
+*.txt
+*.csv
+*.tsv
+*.data
+*.dat
+*.npy
+*.npz
+*.pkl
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Docker
+*.log
+docker-compose.yml
+Dockerfile
+
+# Editors and IDEs
+# JetBrains (PyCharm, IntelliJ IDEA)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio Code
+.vscode/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebooks
+*.ipynb_checkpoints
+*.nbconvert.ipynb
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
