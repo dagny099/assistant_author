@@ -20,15 +20,17 @@ st.set_page_config(
 # Pre-upload this file if it exists in the main directory
 pre_upload_file_path = "./RESUME.txt"  
 pre_upload_job_description = './JOB_DESCRIPTION.txt'
-client = OpenAI()
+client = OpenAI(
+    api_key = st.secrets["openai_key"]
+)
 
 sessionFolder = 'saved_SESSIONS'
 docsFolder = 'saved_DOCS'
 
 chatmodels = ['gpt-3.5-turbo', 'gpt-3.5-turbo-1106', 'gpt-4o', 'davinci-002', 'babbage-002']
 
-save_resume = "Resume_text" 
-save_cover_letter = "Draft_cover_letter"
+save_resume = "Resume_text.txt" 
+save_cover_letter = "Draft_cover_letter.txt"
 
 # ============================================= #
 
@@ -326,7 +328,7 @@ load_filename = sec_session_6.selectbox("Select a saved session", savedSessions)
 if sec_session_7.button("Load Session State"):
     if load_filename:
         load_session_state(load_filename)
-        st.experimental_rerun()
+        st.rerun()
     else:
         sec_session_8.error("Please enter a filename to load the session state.")
 
@@ -504,8 +506,8 @@ if 'cover_letter' in st.session_state:
         if save_cover_letter:
             with open(save_cover_letter, "w") as file:
                 file.write(st.session_state['cover_letter'])
-            st.write(f"Cover letter saved as {save_cover_letter}.txt")
+            st.write(f"Cover letter saved as {save_cover_letter}")
         else:
-            st.error("Please enter a filename to save the cover letter (omit .txt).")
+            st.error("Please enter a filename to save the cover letter.")
 else:
     st.write("Please generate and modify your cover letter in the sections above.")
