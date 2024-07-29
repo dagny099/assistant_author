@@ -112,6 +112,19 @@ def generate_cover_letter(resume_text):
     return response.choices[0].message.content
 
 
+def optimize_resume(resume, modification):
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are an assistant that helps users modify their cover letters."},
+            {"role": "user", "content": f"Here is the cover letter: {cover_letter}"},
+            {"role": "user", "content": f"Please modify it as follows: {modification}"}
+        ],
+        temperature=st.session_state['temperature']
+    )
+    return response.choices[0].message.content
+
+
 
 # Function to extract applicant information from the resume
 def extract_applicant_info(resume_text):
