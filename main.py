@@ -11,14 +11,14 @@ from datetime import datetime
 
 # Setup session
 st.set_page_config(
-    page_title="Reboot",
+    page_title="CoverCraft",
     page_icon="🦖",
-    # layout="wide",
-#    initial_sidebar_state="expanded",
+    layout="wide",
+   initial_sidebar_state="expanded",
 )
 
 # Pre-upload this file if it exists in the main directory
-pre_upload_file_path = "./RESUME.txt"  
+pre_upload_file_path = "./Barbara_Hidalgo-Sotelo_Resume_2024 Long.txt"  
 pre_upload_job_description = './JOB_DESCRIPTION.txt'
 client = OpenAI(
     api_key = st.secrets["openai_key"]
@@ -56,6 +56,23 @@ def load_session_state(filename):
         st.sidebar.success(f"Session state loaded from {filename}")
     except FileNotFoundError:
         st.sidebar.error(f"No saved state found with filename {filename}")
+
+# Function to generate the first draft of the cover letter
+def extract_applicant_info(resume_text):
+    completion = client.chat.completions.create(
+      model = "gpt-3.5-turbo",
+      temperature=0.9,
+      response_format={ "type": "json_object" },
+      messages = [
+          {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
+          {"role": "user", "content": f"Based only on an applicants RESUME below, extract this data about the applicant: NAME, EMAIL, ADDRESS, PHONE NUMBER, and SKILLS"},
+          {"role": "user", "content": f"If any of these elements are unclear or ambiguous, you can use UNSURE in place of the extracted value."},
+          {"role": "user", "content": f"You MUST respond with a python dictionary containing the data elements as keys and the extracted values."},
+          {"role": "user", "content": f"Here is the document: {resume_text}"}
+      ]
+    )
+    return json.loads(completion.choices[0].message.content)
+
 
 
 # Function to generate the first draft of the cover letter
@@ -127,17 +144,18 @@ def optimize_resume(resume, modification):
 
 
 # Function to extract applicant information from the resume
-def extract_applicant_info(resume_text):
+def extract_role_info(job_path):
+    job_info_text = read_text_file(job_path)
     completion = client.chat.completions.create(
       model = "gpt-3.5-turbo",
       temperature=0.9,
       response_format={ "type": "json_object" },
       messages = [
-          {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
-          {"role": "user", "content": f"Based only on an applicants RESUME below, extract this data about the applicant: NAME, EMAIL, ADDRESS, PHONE NUMBER, and SKILLS"},
-          {"role": "user", "content": f"If any of these elements are unclear or ambiguous, you can use UNSURE in place of the extracted value."},
-          {"role": "user", "content": f"You MUST respond with a python dictionary containing the data elements as keys and the extracted values."},
-          {"role": "user", "content": f"Here is the document: {resume_text}"}
+        {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
+        {"role": "user", "content": "Based only on the JOB DESCRIPTION below, extract this data: COMPANY NAME, POSITION TITLE, and JOB DESCRIPTION."},
+        {"role": "user", "content": "If any of these elements are unclear or ambiguous, you can use 'UNSURE' in place of the extracted value."},
+        {"role": "user", "content": "You MUST respond with a JSON object containing the data elements as keys and the extracted values."},
+        {"role": "user", "content": "Here is the JOB DESCRIPTION text:\n" + job_info_text}
       ]
     )
     return json.loads(completion.choices[0].message.content)
@@ -197,13 +215,7 @@ def make_filename(prefix):
     return f"{prefix}_{today_date}_{time_suffix}"
 
 
-
 # ============================================= #
-
-pre_uploaded_job_info = ""
-if os.path.exists(pre_upload_job_description):
-    pre_uploaded_job_info = read_text_file(pre_upload_job_description)
-
 
 # List all saved session files:
 try:
@@ -211,7 +223,6 @@ try:
 except FileNotFoundError:
     st.error(f"The directory '{sessionFolder}' does not exist.")
     savedSessions = []
-
 
 # ============================================= #
 
@@ -243,22 +254,25 @@ else:
     DEF_SKILLS = candidate_info["SKILLS"]
     # del st.session_state['candidate_info']  #Remove candidate_info once it gets to a model
 
+# Check if a pre-uploaded job description exists
+if 'role_info_extracted' not in st.session_state:
+    if os.path.exists(pre_upload_job_description):
+        # Extract the JOB ROLE information
+        st.session_state['role_info_extracted'] = extract_role_info(pre_upload_job_description)
 
-if "company_name" not in st.session_state:
-    DEF_company = ""
+if "role_info_extracted" in st.session_state:
+    role_info = st.session_state['role_info_extracted']
+    st.session_state['company_name']  = role_info.get('COMPANY NAME', '')
+    st.session_state['position_title'] = role_info.get('POSITION TITLE', '')
+    st.session_state['job_description'] = role_info.get('JOB DESCRIPTION', '')
+    del st.session_state['role_info_extracted']  #Remove role_info_extracted once it gets to a model
 else:
-    DEF_company = st.session_state["company_name"]
-
-if "position_title" not in st.session_state:
-    DEF_role = ""
-else:
-    DEF_role = st.session_state["position_title"]
-
-if "job_description" not in st.session_state:
-    DEF_job = ""
-else:
-    DEF_job = st.session_state["job_description"]
-
+    if "company_name" not in st.session_state:
+        st.session_state['company_name']  = ""
+    if "position_title" not in st.session_state:
+        st.session_state['position_title'] = ""
+    if "job_description" not in st.session_state:
+        st.session_state['job_description'] = ""
 
 # ============================================= #
 side_title = st.sidebar.title('Enter Customizing Details')
@@ -305,11 +319,11 @@ mod_session_space.markdown("<hr>", unsafe_allow_html=True)
 
 # Sidebar for job features
 job_session_header.subheader("About the Job")
-company_name = job_session_1.text_input("Company Name", value=DEF_company) #,  on_change="company_name")
+company_name = job_session_1.text_input("Company Name", value=st.session_state['company_name']) #,  on_change="company_name")
 st.session_state['company_name'] = company_name
-position_title = job_session_2.text_input("Position Title", value=DEF_role) #key="position_title")
+position_title = job_session_2.text_input("Position Title", value=st.session_state['position_title']) #key="position_title")
 st.session_state['position_title'] = position_title
-job_description = job_session_3.text_area("Job Description", value=DEF_job) #key="job_description")
+job_description = job_session_3.text_area("Job Description", value=st.session_state['job_description']) #key="job_description")
 st.session_state['job_description'] = job_description
 job_session_space.markdown("<hr>", unsafe_allow_html=True)
 
@@ -353,11 +367,13 @@ sec_session_space.markdown("<hr>", unsafe_allow_html=True)
 pre_uploaded_resume = ""
 
 # Streamlit App
-st.title("Barb's Cover Letter Generator with ATS Scanning")
+st.title("CareerCraft: My Job App Co-Pilot")
+
+st.write('Welcome! This app is a personalized assistant for crafting tailored resumes and cover letters. From generating professional drafts to ensuring ATS compatibility, it’s your all-in-one tool for job application success.')
 
 # Section 1: Ingest Information
-st.markdown("<h2>Ingest resume:</h2>", unsafe_allow_html=True)
-with st.expander("OPTIMIZE RESUME WITH AI", expanded=True):
+st.subheader("1. Ingest Resume :clipboard:")
+with st.expander("CLICK TO OPTIMIZE RESUME WITH AI", expanded=False):
     # st.subheader("Ingest base resume:")
     st.markdown("<h5>Step 1) Start with base resume:</h5>", unsafe_allow_html=True)
     sec0 = st.empty()
@@ -365,7 +381,7 @@ with st.expander("OPTIMIZE RESUME WITH AI", expanded=True):
     sec2 = st.empty()
     sec3 = st.empty()
     # Text Area Input
-    sec2.checkbox("Check to load default RESUME.txt ", value=True, key="use_def_res")
+    sec2.checkbox("Check to load default RESUME.txt ", value=False, key="use_def_res")
     if 'text_input' in st.session_state:
         DEF_USER_TEXT = st.session_state['text_input']
     else:
@@ -434,7 +450,7 @@ with st.expander("OPTIMIZE RESUME WITH AI", expanded=True):
 
 
 # Section 2: Build First Draft
-st.header("2. Build First Draft")
+st.subheader("2. Build First Draft :pencil:")
 if 'first_draft' not in st.session_state:
     if st.button("Generate Cover Letter"):
         if st.session_state['user_input']:
@@ -448,7 +464,7 @@ else:
         st.write(st.session_state['first_draft'])
 
 # Section 3: Interact with Cover Letter
-st.header("3. Interact with Cover Letter")
+st.subheader("3. Interact with Cover Letter :love_letter:")
 if 'cover_letter' in st.session_state:
     with st.expander("Display Current Draft:"):
         st.write(st.session_state['cover_letter'])
@@ -473,7 +489,7 @@ else:
 
 
 # Section 4: ATS Scanning
-st.header("4. ATS Scanning")
+st.subheader("4. Review ATS Scanning :dart:")
 colRes, colCover = st.columns(2)
 with colRes:
     if 'user_input' in st.session_state:
@@ -505,7 +521,7 @@ with colCover:
 
 
 # Section 5: Save Final Cover Letter
-st.header("5. Save Final Cover Letter")
+st.subheader("5. Save Final Cover Letter :label:")
 if 'cover_letter' in st.session_state:
 
     # Create a download button

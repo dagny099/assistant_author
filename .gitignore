@@ -5,8 +5,13 @@ __pycache__/
 
 # temporary files
 tmp/*
+!saved_SESSIONS/
 saved_SESSIONS/*
+!saved_DOCS/
 saved_DOCS/*
+
+# Virtual env files
+.job*
 
 
 # Jupyter Notebook checkpoints

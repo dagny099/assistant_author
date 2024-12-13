@@ -1,78 +1,131 @@
-# Notes for Barb's Job App Assistant
+# README.md
+
+Hi there. :bowtie: Thanks for visting the GitHub repository for my Resume and Cover Letter Customization App. 
+
+## About This Site
+This repository is for a publicly-available **Streamlit web application** designed to assist users in creating tailored resumes and cover letters for job applications. Powered by advanced language models (LLMs) like OpenAI's GPT-3.5 and GPT-4, the app offers an interactive and user-friendly workflow to refine application materials. For the moment, the app is hosted on [Streamlit Community Cloud](https://streamlit.io/cloud) (for which there are definitely pros and cons). 
+
+## Features
+1. **Resume Import**:
+   - Load an existing resume in PDF or text format.
+   - Alternatively, type resume content directly into a text box.
+
+2. **Customizable Details**:
+   - Input specific job details in the sidebar to customize the outputs.
+
+3. **Applicant Information Extraction**:
+   - Automatically extract applicant details from the uploaded resume and display them in the sidebar.
+     - Uses text parsing techniques to identify key details like name, contact information, and professional summary.
+     - Relies on pattern matching and context-based inference to ensure accuracy, with fallback mechanisms for manual edits.
+
+4. **Cover Letter Drafting**:
+   - Generate a first draft of a cover letter based on the resume and job description.
+   - Edit the cover letter interactively using the LLM to request changes (e.g., tone, content).
+
+5. **Applicant Tracking System (ATS) Keyword Check**:
+   - Perform a basic ATS scan to ensure relevant keywords are present in the resume and cover letter.
+     - This scan identifies critical keywords related to job descriptions and compares them with those in the resume and cover letter.
+     - While modeled after common ATS systems, it focuses on identifying gaps in keyword alignment rather than emulating a specific proprietary system.
+
+6. **Downloadable Outputs**:
+   - Save the finalized cover letter as a text file.
+
+7. **Session Management**:
+   - Save and load session states to allow for easy resumption of work.
+   
+### Visit My Website
+You can explore the application here: 
+https://barbsassistant.streamlit.app/
 
 
+## Getting Started
 
-### Resources
+### Prerequisites
 
-Read about [the OpenAI models](https://platform.openai.com/docs/models/gpt-3-5-turbo), which is useful for knowing which model is best to use for various tasks, e.g. generating text for documents or extracting information. 
+- Python 3.8+
+- Streamlit
+- OpenAI Python library
+- Additional libraries: `PyPDF2`, `pickle`, `json`
 
-JSON mode! ...  Extract information from text and return in a structured format:
-https://platform.openai.com/docs/guides/text-generation/json-mode
+---
 
-The pricing page is here, it is not particulalry well linked. 
-https://openai.com/api/pricing/
-https://platform.openai.com/settings/organization/billing/overview
+### Installation
 
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/dagny099/assistant_author.git
+   cd assistant_author
+   ```
 
-CHAT COMPLETIONS
+2. Install the required Python packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-**gpt-3.5-turbo-0125**  (this is gpt-3.5-turbo)
-The latest GPT-3.5 Turbo model with higher accuracy at responding in requested formats and a fix for a bug which caused a text encoding issue for non-English language function calls. Returns a maximum of 4,096 output tokens
-Input:   $0.50 /  1M tokens
-Output:   $1.50 /  1M tokens
+3. Add your OpenAI API key to `Streamlit` secrets:
+   ```plaintext
+   [openai_key]
+   YOUR_API_KEY
+   ```
+   For more details on setting up Streamlit secrets, refer to the [Streamlit documentation](https://docs.streamlit.io/library/advanced-features/secrets-management).
 
+### Running the App
 
-**gpt-3.5-turbo-1106**  
-GPT-3.5 Turbo model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Returns a maximum of 4,096 output tokens. 
-Input:   $1.50 /  1M tokens
-Output:   $2.00 /  1M tokens
+1. Start the Streamlit app:
+   ```bash
+   streamlit run main.py
+   ```
+2. Open your browser at the URL provided (usually `http://localhost:8501`).
 
-**gpt-4-turbo-2024-04-09**. (thisi s gpt-4-turbo)
-The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling.
-Input:   $10.00 /  1M tokens
-Output:   $30.00 /  1M tokens
+---
 
+## Usage
 
-**gpt-4-0613**  (this is gpt-4)
-Snapshot of gpt-4 from June 13th 2023 with improved function calling support.	
-Input:   $30.00 /  1M tokens
-Output:   $60.00 /  1M tokens
+### Workflow
 
+1. **Load Resume**:
+   - Upload a PDF or text file, or type resume details directly into the text box.
 
-**gpt-4-1106-preview** 
-GPT-4 Turbo preview model featuring improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more. Returns a maximum of 4,096 output tokens. This is a preview model.
-Input:   $10.00 /  1M tokens
-Output:   $30.00 /  1M tokens
+2. **Customize Job Details**:
+   - Input information about the target job in the sidebar.
 
+3. **Generate Cover Letter**:
+   - Click to generate a first draft of the cover letter based on the loaded resume.
 
-**got-4o** 
-Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo. Currently points to gpt-4o-2024-05-13.	
-Input:   $5.00 /  1M tokens
-Output:   $15.00 /  1M tokens
+4. **Interactive Editing**:
+   - Use the app's interface to request edits or modifications to the draft.
 
+5. **ATS Scan**:
+   - Analyze keyword relevance for ATS compatibility (if a job description is available).
 
-**davinci-002**
-Input:   $2.00 /  1M tokens
-Output:   $2.00 /  1M tokens
+6. **Download Finalized Outputs**:
+   - Save the cover letter to your local machine.
 
+---
 
-**babbage-002**
-Input:   $0.40 /  1M tokens
-Output:   $0.40 /  1M tokens
+## Project Structure
 
+- `main.py`: Core application logic.
+- `requirements.txt`: List of dependencies.
+- `saved_SESSIONS/`: Directory for storing session states.
+- `saved_DOCS/`: Directory for saving resumes and cover letters.
 
+---
 
-<!-- 
-from openai import OpenAI
-client = OpenAI()
+## Roadmap: Q4 2024
 
-response = client.chat.completions.create(
-  model="gpt-3.5-turbo-0125",
-  response_format={ "type": "json_object" },
-  messages=[
-    {"role": "system", "content": "You are a helpful assistant designed to output JSON."},
-    {"role": "user", "content": "Who won the world series in 2020?"}
-  ]
-)
-print(response.choices[0].message.content)
- -->
+1. **Enhanced ATS Scanning**:
+   - Integrate a more sophisticated keyword analysis tool.
+     - Explore NLP libraries like SpaCy or NLTK for advanced text analysis.
+     - Use pre-trained models or fine-tune transformers to extract and evaluate keyword relevance.
+     - Implement statistical approaches such as TF-IDF or cosine similarity to enhance keyword matching.
+2. **Support for Additional Formats**:
+   - Enable Word document imports/exports.
+3. **Expanded LLM Features**:
+   - Add detailed guidance for LLM interaction improvements.
+
+---
+
+## License
+This project is licensed under the MIT License.
+
