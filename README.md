@@ -5,6 +5,11 @@ Hi there. :bowtie: Thanks for visting the GitHub repository for my Resume and Co
 ## About This Site
 This repository is for a publicly-available **Streamlit web application** designed to assist users in creating tailored resumes and cover letters for job applications. Powered by advanced language models (LLMs) like OpenAI's GPT-3.5 and GPT-4, the app offers an interactive and user-friendly workflow to refine application materials. For the moment, the app is hosted on [Streamlit Community Cloud](https://streamlit.io/cloud) (for which there are definitely pros and cons). 
 
+### Visit My Website
+You can explore the application here: 
+https://barbsassistant.streamlit.app/
+
+
 ## Features
 1. **Resume Import**:
    - Load an existing resume in PDF or text format.
@@ -33,10 +38,6 @@ This repository is for a publicly-available **Streamlit web application** design
 7. **Session Management**:
    - Save and load session states to allow for easy resumption of work.
    
-### Visit My Website
-You can explore the application here: 
-https://barbsassistant.streamlit.app/
-
 
 ## Getting Started
 
