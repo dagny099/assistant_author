@@ -230,6 +230,8 @@ except FileNotFoundError:
 
 if "user_input" in st.session_state:
     DEF_TEMP = st.session_state["user_input"]
+else:
+    st.session_state["user_input"] = ""
 
 if "model" not in st.session_state:
     model = 'gpt-3.5-turbo'
