@@ -220,6 +220,8 @@ def make_filename(prefix):
 # List all saved session files:
 try:
     savedSessions = os.listdir(sessionFolder)
+    if ".gitkeep" in savedSessions:
+        savedSessions.remove(".gitkeep")
 except FileNotFoundError:
     st.error(f"The directory '{sessionFolder}' does not exist.")
     savedSessions = []
