@@ -1,104 +1,122 @@
-# README.md
+## 🦖 CareerCraft: Resume and Cover Letter Customization App
 
-Hi there. :bowtie: Thanks for visting the GitHub repository for my Resume and Cover Letter Customization App. 
-
-## About This Site
-This repository is for a publicly-available **Streamlit web application** designed to assist users in creating tailored resumes and cover letters for job applications. Powered by advanced language models (LLMs) like OpenAI's GPT-3.5 and GPT-4, the app offers an interactive and user-friendly workflow to refine application materials. For the moment, the app is hosted on [Streamlit Community Cloud](https://streamlit.io/cloud) (for which there are definitely pros and cons). 
-
-
-### Visit My Website
-You can explore the application here: 
-https://barbsassistant.streamlit.app/   
-
-
-## Getting Started
-
-### Prerequisites
-
-- Python 3.8+
-- Streamlit
-- OpenAI Python library
-- Additional libraries: `PyPDF2`, `pickle`, `json`
+Thanks for visiting the GitHub repository for **CareerCraft**, an interactive assistant for crafting tailored resumes and cover letters.
 
 ---
 
-### Installation
+### 🌟 About This Project
+<div style="float: right; margin: 10px; width: 50%;">
+  <img src="https://www.barbhs.com/assets/images/portfolio/jobappassistant_th.jpg"" 
+       alt="CoverCraft App Screenshot" style="width:100%; height:auto;">
+  <em style="display:block; text-align:center; font-size:0.9em;">CareerCraft Application Interface</em>
+</div>
 
-1. Clone this repository:
+CareerCraft is a publicly available **Streamlit web application** that leverages advanced language models (LLMs), including OpenAI's GPT-3.5 and GPT-4, to help job seekers customize their resumes and cover letters effectively. Originally hosted on [Streamlit Community Cloud](https://streamlit.io/cloud), the app is now primarily deployed on **Heroku** for enhanced uptime and reliability.
+
+### 🌐 Visit the Application
+- **Primary (Heroku)**: [https://careercraft.barbhs.com](https://careercraft.barbhs.com)
+- **Backup (Streamlit Cloud)**: [https://barbsassistant.streamlit.app](https://barbsassistant.streamlit.app)
+
+
+
+## 🚀 Quickstart Guide (Heroku)
+
+### **Prerequisites**
+- Python 3.8+
+- Streamlit
+- OpenAI Python library
+- PyPDF2
+- pickle
+- json
+- Heroku CLI (recommended)
+
+### **Installation Steps**
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/dagny099/assistant_author.git
    cd assistant_author
    ```
 
-2. Install the required Python packages:
+2. **Install required Python packages:**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Add your OpenAI API key to `Streamlit` secrets:
-   ```plaintext
-   [openai_key]
-   YOUR_API_KEY
-   ```
-   For more details on setting up Streamlit secrets, refer to the [Streamlit documentation](https://docs.streamlit.io/library/advanced-features/secrets-management).
-
-### Running the App
-
-1. Start the Streamlit app:
+3. **Set your OpenAI API key in Heroku:**
    ```bash
-   streamlit run main.py
+   heroku config:set OPENAI_API_KEY="your_openai_api_key_here"
    ```
-2. Open your browser at the URL provided (usually `http://localhost:8501`).
+
+### **Deploying to Heroku**
+Ensure your repository contains:
+- `Procfile`
+- `setup.sh`
+
+Deploy via GitHub integration or CLI:
+```bash
+git push heroku main
+```
+
+### 🗃️ **Important Note on Persistence:**
+Heroku uses ephemeral storage. Uploaded files or generated documents stored locally will not persist across restarts. In Q2 of 2024 I'll be integrating cloud storage services like AWS S3 for persistent file management, stay tuned.
 
 ---
 
-## Usage
+## 📂 Project Structure
+- `main.py`: Core Streamlit application logic.
+- `requirements.txt`: Dependencies.
+- `Procfile`: Heroku deployment instructions.
+- `setup.sh`: Streamlit server configuration for Heroku.
 
-### Workflow
+### 🦕 Architecture Overview
+- Add a visual architecture diagram here to illustrate user workflow, integration with OpenAI APIs, and interaction with external cloud storage.
+<p align="center">
+  <img src="https://www.barbhs.com/assets/images/portfolio/OverallArchitecture-CareerCraft-v1.png" alt="Architecture Diagram" width="70%">
+  <br>
+  <em>Figure: System architecture diagram showing how different components interact</em>
+</p>
 
-1. **Load Resume**:
-   - Upload a PDF or text file, or type resume details directly into the text box.
 
-2. **Customize Job Details**:
-   - Input information about the target job in the sidebar.
+## 🌟 Usage Instructions
+<p align="center">
+  <img src="https://www.barbhs.com/assets/images/portfolio/UserSteps_CareerCraft_v2.png" alt="Architecture Diagram" width="70%">
+  <br>
+</p>
 
-3. **Generate Cover Letter**:
-   - Click to generate a first draft of the cover letter based on the loaded resume.
+✅ **1. Upload Your Resume**  
+* Go to the Ingest Resume section.  
+* Choose between:  *Manual text entry* or *Upload PDF or TXT file*  
+* Click "Ingest Information" to process.
 
-4. **Interactive Editing**:
-   - Use the app's interface to request edits or modifications to the draft.
+✅ **2. Input Job Details**  
+* Use the sidebar to provide:  
+Company Name | Position Title | Job Description
 
-5. **ATS Scan**:
-   - Analyze keyword relevance for ATS compatibility (if a job description is available).
+✅ **3. Generate First Draft**  
+- In the Build First Draft section, click "Generate Cover Letter".  
+- A first draft of your tailored cover letter appears immediately.  
 
-6. **Download Finalized Outputs**:
-   - Save the cover letter to your local machine.
+✅ **4. Interactive Editing**  
+- To modify the draft: Describe changes clearly in the text box (e.g., "make the tone more formal", "highlight leadership experience").  
+- Click "Modify Cover Letter".  
 
----
+✅ **5. ATS Keyword Optimization**  
+* Click "Scan resume with ATS" or "Scan cover letter with ATS".
+* Results show a percentage match and common keywords, highlighting any gaps.
 
-## Project Structure
+✅ **6. Download Final Documents**  
+* Use the provided download buttons to immediately save your finalized resume and cover letter.
 
-- `main.py`: Core application logic.
-- `requirements.txt`: List of dependencies.
-- `saved_SESSIONS/`: Directory for storing session states.
-- `saved_DOCS/`: Directory for saving resumes and cover letters.
 
----
+## 🎯 Roadmap: Q4 2024
 
-## Roadmap: Q4 2024
+1. **Enhanced ATS Scanning:**
+   - NLP-based keyword analysis (SpaCy, transformers)
+2. **Additional Format Support:**
+   - Microsoft Word document handling
+3. **Expanded LLM Guidance:**
+   - Advanced user interactions and editing suggestions
 
-1. **Enhanced ATS Scanning**:
-   - Integrate a more sophisticated keyword analysis tool.
-     - Explore NLP libraries like SpaCy or NLTK for advanced text analysis.
-     - Use pre-trained models or fine-tune transformers to extract and evaluate keyword relevance.
-     - Implement statistical approaches such as TF-IDF or cosine similarity to enhance keyword matching.
-2. **Support for Additional Formats**:
-   - Enable Word document imports/exports.
-3. **Expanded LLM Features**:
-   - Add detailed guidance for LLM interaction improvements.
 
----
-
-## License
-This project is licensed under the MIT License.
-
+## 📜 License
+Licensed under the MIT License.
