@@ -8,6 +8,19 @@ import ast
 from datetime import datetime
 
 # ============================================= #
+def get_openai_key():
+    # First try Heroku's environment variables
+    api_key = os.getenv("OPENAI_API_KEY")
+    if api_key:
+        return api_key
+
+    # Fall back to Streamlit secrets
+    try:
+        return st.secrets["openai_key"]
+    except:
+        raise ValueError("OpenAI API key not found in environment variables or Streamlit secrets!")
+
+api_key = get_openai_key()
 
 # Setup session
 st.set_page_config(
@@ -21,7 +34,7 @@ st.set_page_config(
 pre_upload_file_path = "./Barbara_Hidalgo-Sotelo_Resume_2024 Long.txt"  
 pre_upload_job_description = './JOB_DESCRIPTION.txt'
 client = OpenAI(
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = api_key
 )
 
 sessionFolder = 'saved_SESSIONS'
