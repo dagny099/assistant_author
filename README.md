@@ -1,18 +1,16 @@
-## 🦖 CareerCraft: Resume and Cover Letter Customization App
+# 🦖 CareerCraft: Resume and Cover Letter Customization App
 
-Thanks for visiting the GitHub repository for **CareerCraft**, an interactive assistant for crafting tailored resumes and cover letters.
-
+Thanks for visiting the GitHub repository for **CareerCraft**, an interactive assistant for crafting tailored resumes and cover letters. Read more details at my [main project page here](https://www.barbhs.com/portfolio/JobAppApp/).
 
 ### 🌟 About This Project
 CareerCraft is a publicly available **Streamlit web application** that leverages advanced language models (LLMs), including 
 OpenAI's GPT-3.5 and GPT-4, to help job seekers customize their resumes and cover letters effectively. Originally hosted on 
 [Streamlit Community Cloud](https://streamlit.io/cloud), the app is now primarily deployed on **Heroku** for enhanced uptime and 
-reliability. Read more details at my [main project page here](https://www.barbhs.com/portfolio/JobAppApp/).
+reliability. 
 
 ### 🌐 Visit the Application
 - **Primary (Heroku)**: [https://careercraft.barbhs.com](https://careercraft.barbhs.com)
 - **Backup (Streamlit Cloud)**: [https://barbsassistant.streamlit.app](https://barbsassistant.streamlit.app)
-
 
 
 ## 🚀 Quickstart Guide (Heroku)
