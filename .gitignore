@@ -8,7 +8,7 @@ tmp/*
 
 # Virtual env files
 .job*
-
+*.ipynb
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
@@ -96,4 +96,5 @@ Thumbs.db
 *.zip
 *.tar.gz
 *.rar
+
 

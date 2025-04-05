@@ -21,11 +21,10 @@ st.set_page_config(
 pre_upload_file_path = "./Barbara_Hidalgo-Sotelo_Resume_2024 Long.txt"  
 pre_upload_job_description = './JOB_DESCRIPTION.txt'
 client = OpenAI(
-    api_key = st.secrets["openai_key"]
+    api_key = os.getenv("OPENAI_API_KEY")
 )
 
 sessionFolder = 'saved_SESSIONS'
-docsFolder = 'saved_DOCS'
 
 chatmodels = ['gpt-3.5-turbo', 'gpt-3.5-turbo-1106', 'gpt-4o', 'davinci-002', 'babbage-002']
 
