@@ -14,11 +14,11 @@ def get_openai_key():
     if api_key:
         return api_key
 
-    # Fall back to Streamlit secrets
-    try:
+    # Match secrets.toml exactly:
+    if "openai_key" in st.secrets:
         return st.secrets["openai_key"]
-    except:
-        raise ValueError("OpenAI API key not found in environment variables or Streamlit secrets!")
+    
+    raise ValueError("API key missing!")
 
 api_key = get_openai_key()
 
